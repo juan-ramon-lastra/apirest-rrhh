@@ -35,16 +35,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario login(Usuario usuario) {
+	public boolean login(String user, String pass) {
 		
-		boolean userValid = userDao.existsById(usuario.getId());
+		boolean logueado = false;
 		
-		if (userValid) {
-			return usuario;
+		for (Usuario usuario : userDao.findAll()) {
+			if (usuario.getUser().equals(user) && usuario.getPass().equals(pass)) {
+				logueado = true;
+				break;
+			}
 		}
-
-		return null;
+		
+		return logueado;
 	}
+
 }
 
 

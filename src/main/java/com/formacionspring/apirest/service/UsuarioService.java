@@ -14,6 +14,6 @@ public interface UsuarioService {
 	
 	public void delete(Long id);
 	
-	public Usuario login(Usuario usuario);
+	public boolean login(String user, String pass);
 	
 }

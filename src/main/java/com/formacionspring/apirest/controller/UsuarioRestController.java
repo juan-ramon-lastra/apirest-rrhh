@@ -128,19 +128,17 @@ public class UsuarioRestController {
 	}
 	
 	@PostMapping("/usuarios/login")
-	public ResponseEntity<?> loginUsuario(@RequestBody Usuario usuario) {
+	public ResponseEntity<?> loginUsuario(@RequestBody String user, @RequestBody String pass) {
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		Usuario user = userService.login(usuario);
-		
-		if (user == null) {
-			response.put("mensaje", "Error: el usuario ID: " + usuario.getId() + " no existe.");
+		if (user.isEmpty() || pass.isEmpty()) {
+			response.put("mensaje", "Error: Faltan datos.");
 			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		
-		if (!user.getPass().equals(usuario.getPass())) {
-			response.put("mensaje", "Error: la contraseña del usuario: " + usuario.getUser() + " es incorrecta.");
+		if (!userService.login(user, pass)) {
+			response.put("mensaje", "Error: Usuario incorrecto o Contraseña incorrecta.");
 			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.UNAUTHORIZED);
 		}
 		
